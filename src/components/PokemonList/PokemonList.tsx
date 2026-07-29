@@ -1,4 +1,4 @@
-import { Pokemon } from "./Pokemon";
+import { Pokemon } from "../Pokemon/Pokemon";
 import style from "./PokemonList.module.css";
 
 interface PokemonListProps {
