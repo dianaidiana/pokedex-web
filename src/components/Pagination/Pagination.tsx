@@ -4,11 +4,17 @@ import style from "./Pagination.module.css";
 interface PaginationProps {
     page: number;
     length: number;
+    lastPage?: number;
     setPage: (page: number) => void;
 }
 
-export function Pagination({ page, length, setPage }: PaginationProps) {
-    function pageRange(page: number, length: number) {
+export function Pagination({
+    page,
+    length,
+    lastPage,
+    setPage,
+}: PaginationProps) {
+    function pageRange(page: number, length: number, lastPage?: number) {
         const arr = [];
         if (page <= length / 2) {
             for (let i = 1; i <= length; i++) {
@@ -23,7 +29,9 @@ export function Pagination({ page, length, setPage }: PaginationProps) {
                 arr.push(i);
             }
         }
-        return arr;
+        return lastPage !== undefined
+            ? arr.filter((p) => p <= lastPage)
+            : arr;
     }
 
     return (
@@ -39,7 +47,7 @@ export function Pagination({ page, length, setPage }: PaginationProps) {
             >
                 <FaAngleLeft />
             </button>
-            {pageRange(page, length).map((p) => (
+            {pageRange(page, length, lastPage).map((p) => (
                 <div
                     key={p}
                     onClick={() => setPage(p)}
@@ -48,7 +56,15 @@ export function Pagination({ page, length, setPage }: PaginationProps) {
                     {p == page ? <b>{p}</b> : p}
                 </div>
             ))}
-            <button className={style.iconBtn} onClick={() => setPage(page + 1)}>
+            <button
+                className={style.iconBtn}
+                onClick={() => {
+                    if (lastPage === undefined || page < lastPage) {
+                        setPage(page + 1);
+                    }
+                }}
+                hidden={lastPage ? page >= lastPage : false}
+            >
                 <FaAngleRight />
             </button>
         </div>
