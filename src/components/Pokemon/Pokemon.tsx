@@ -1,7 +1,7 @@
 import { useCallback } from "react";
-import { ApiError, getPokemonData, PokemonData } from "../poke-api3";
-import { usePromise } from "../hooks/usePromise";
-import { Spinner } from "./Spinner";
+import { ApiError, getPokemonData, PokemonData } from "../../poke-api3";
+import { usePromise } from "../../hooks/usePromise";
+import { Spinner } from "../Spinner/Spinner";
 import style from "./pokemon.module.css";
 import ohnoPokemon from "../assets/ohno_pokemon.png";
 
@@ -12,7 +12,7 @@ interface PokemonProps {
 export function Pokemon({ nameOrId }: PokemonProps) {
     const fetchPokemon = useCallback(
         () => getPokemonData(nameOrId),
-        [nameOrId]
+        [nameOrId],
     );
 
     const { promiseState } = usePromise<PokemonData>(fetchPokemon);
