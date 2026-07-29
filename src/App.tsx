@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
-import { PokemonList } from "./components/PokemonList";
+import { PokemonList } from "./components/PokemonList/PokemonList";
 import pokeLogo from "./assets/International_Pokémon_logo.svg";
 import "./App.css";
-import { Pagination } from "./components/Pagination";
+import { Pagination } from "./components/Pagination/Pagination";
 
 function App() {
     const inputRef = useRef<HTMLInputElement>(null);
@@ -22,7 +22,7 @@ function App() {
                             ref={inputRef}
                             onChange={() =>
                                 setAmountPerPage(
-                                    inputRef.current!.valueAsNumber
+                                    inputRef.current!.valueAsNumber,
                                 )
                             }
                             max={20}
