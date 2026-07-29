@@ -1,32 +1,18 @@
-import { useCallback } from "react";
-import { ApiError, getPokemonData, PokemonData } from "../../poke-api3";
-import { usePromise } from "../../hooks/usePromise";
-import { Spinner } from "../Spinner/Spinner";
+import { ApiError, PokemonData } from "../../poke-api";
 import style from "./pokemon.module.css";
-import ohnoPokemon from "../assets/ohno_pokemon.png";
+import ohnoPokemon from "../../assets/ohno_pokemon.png";
 
 interface PokemonProps {
-    nameOrId: string | number;
+    result: PromiseSettledResult<PokemonData>;
 }
 
-export function Pokemon({ nameOrId }: PokemonProps) {
-    const fetchPokemon = useCallback(
-        () => getPokemonData(nameOrId),
-        [nameOrId],
-    );
-
-    const { promiseState } = usePromise<PokemonData>(fetchPokemon);
-
+export function Pokemon({ result }: PokemonProps) {
     return (
         <div>
-            {promiseState.state == "resolved" ? (
-                <PokemonCard pokemonData={promiseState.value} />
-            ) : promiseState.state == "pending" ? (
-                <div className={style.container + " " + style.centered}>
-                    <Spinner />
-                </div>
+            {result.status == "fulfilled" ? (
+                <PokemonCard pokemonData={result.value} />
             ) : (
-                <DetailsErrorState error={promiseState.error} />
+                <DetailsErrorState error={result.reason} />
             )}
         </div>
     );
