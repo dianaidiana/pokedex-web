@@ -1,9 +1,9 @@
 import { useCallback } from "react";
-import { ApiError, getPokemonData, PokemonData } from "../../poke-api3";
+import { ApiError, getPokemonData, PokemonData } from "../../poke-api";
 import { usePromise } from "../../hooks/usePromise";
 import { Spinner } from "../Spinner/Spinner";
 import style from "./pokemon.module.css";
-import ohnoPokemon from "../assets/ohno_pokemon.png";
+import ohnoPokemon from "../../assets/ohno_pokemon.png";
 
 interface PokemonProps {
     nameOrId: string | number;
