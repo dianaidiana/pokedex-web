@@ -34,7 +34,9 @@ export function PokemonList({
     return (
         <div className={style.container}>
             {promiseState.state === "pending" ? (
-                <Spinner />
+                <div className={style.statusWrapper}>
+                    <Spinner />
+                </div>
             ) : promiseState.state === "rejected" ? (
                 <div>Something went wrong loading this page.</div>
             ) : (
