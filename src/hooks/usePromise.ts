@@ -1,43 +1,56 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-type PromiseState<T> =
-    | { state: "pending" }
+export type PromiseState<T> =
+    | PendingPromiseState
     | ResolvedPromiseState<T>
     | RejectedPromiseState;
 
-interface ResolvedPromiseState<T> {
+export interface PendingPromiseState {
+    state: "pending";
+}
+
+export interface ResolvedPromiseState<T> {
     state: "resolved";
     value: T;
 }
 
-interface RejectedPromiseState {
+export interface RejectedPromiseState {
     state: "rejected";
     error: unknown;
 }
 
 export function usePromise<T>(promiseFunc: () => Promise<T>) {
-    const [promiseState, setState] = useState<PromiseState<T>>({
+    const [promiseState, setPromiseState] = useState<PromiseState<T>>({
         state: "pending",
     });
 
-    const refresh = useCallback(
-        async function () {
-            setState({ state: "pending" });
-            try {
-                const value = await promiseFunc();
-                setState({ state: "resolved", value });
-            } catch (e) {
-                setState({ state: "rejected", error: e });
-            }
-        },
-        [promiseFunc]
-    );
+    const [refreshToken, setRefreshToken] = useState(Symbol());
 
     useEffect(() => {
-        refresh();
-    }, [refresh]);
+        let cancelled = false;
+        (async function () {
+            setPromiseState({ state: "pending" });
+            try {
+                const value = await promiseFunc();
+                if (!cancelled) {
+                    setPromiseState({ state: "resolved", value });
+                }
+            } catch (error) {
+                if (!cancelled) {
+                    setPromiseState({
+                        state: "rejected",
+                        error,
+                    });
+                }
+            }
+        })();
+        return () => {
+            cancelled = true;
+        };
+    }, [promiseFunc, refreshToken]);
 
     return {
         promiseState,
+        refresh: () => setRefreshToken(Symbol()),
     };
 }
