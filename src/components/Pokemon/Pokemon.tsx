@@ -39,7 +39,10 @@ function PokemonCard({ pokemonData }: { pokemonData: PokemonData }) {
         <div className={style.container + " " + style.grid}>
             <div className={style.name}>{pokemonData.name}</div>
             <div>
-                <img className={style["poke-img"]} src={pokemonData.imageUrl} />
+                <img
+                    className={style["poke-img"]}
+                    src={pokemonData.imageUrl ?? undefined}
+                />
             </div>
 
             <div className={style.details}>

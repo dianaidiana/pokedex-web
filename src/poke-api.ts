@@ -9,14 +9,14 @@ export class ApiError extends Error {
     }
 }
 
-export async function apiFetch(
+export async function apiFetch<T>(
     method: "GET" | "POST" | "DELETE" | "PATCH",
     url: string,
     options?: {
         body?: unknown;
         headers?: { [keyname: string]: string };
     },
-) {
+): Promise<T> {
     const headers: Record<string, string> = options?.headers ?? {};
 
     const reqInit: RequestInit = {
@@ -40,6 +40,21 @@ export async function apiFetch(
     return bodyPayload;
 }
 
+interface ApiPokemonResponse {
+    id: number;
+    name: string;
+    weight: number;
+    height: number;
+    types: { type: { name: string } }[];
+    sprites: {
+        other: {
+            "official-artwork": {
+                front_default: string | null;
+            };
+        };
+    };
+}
+
 export interface PokemonData {
     id: number;
     name: string;
@@ -47,18 +62,16 @@ export interface PokemonData {
     weight: number;
     height: number;
 
-    imageUrl: string;
+    imageUrl: string | null;
 }
 
 export async function getPokemonData(name: string): Promise<PokemonData> {
-    const bodyPayload = await apiFetch("GET", `${name}`);
+    const bodyPayload = await apiFetch<ApiPokemonResponse>("GET", `${name}`);
     const pokemon: PokemonData = {
         id: bodyPayload.id,
         name: bodyPayload.name,
         imageUrl: bodyPayload.sprites.other["official-artwork"].front_default,
-        types: bodyPayload.types.map(
-            (a: { type: { name: string } }) => a.type.name,
-        ),
+        types: bodyPayload.types.map((t) => t.type.name),
         weight: bodyPayload.weight,
         height: bodyPayload.height,
     };
@@ -81,18 +94,10 @@ export async function getPokemonList(
     offset: number,
     limit: number,
 ): Promise<PokemonListResponse> {
-    const bodyPayload = await apiFetch(
+    return apiFetch<PokemonListResponse>(
         "GET",
         `?offset=${offset}&limit=${limit}`,
     );
-    const pokemonListResponse: PokemonListResponse = {
-        count: bodyPayload.count,
-        next: bodyPayload.next,
-        previous: bodyPayload.previous,
-        results: bodyPayload.results,
-    };
-
-    return pokemonListResponse;
 }
 
 export async function getPokemonListData(
