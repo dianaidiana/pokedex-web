@@ -1,5 +1,20 @@
 .container {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: var(--space-4);
+}
+
+.statusWrapper {
+    display: flex;
     align-items: center;
+    justify-content: center;
+    min-height: 350px;
+}
+
+.errorState {
+    background-color: var(--color-error-bg);
+    color: var(--color-error-text);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
 }

@@ -1,5 +1,5 @@
 import { ApiError, PokemonData } from "../../poke-api";
-import style from "./pokemon.module.css";
+import style from "./Pokemon.module.css";
 import ohnoPokemon from "../../assets/ohno_pokemon.png";
 
 interface PokemonProps {
@@ -20,7 +20,7 @@ export function Pokemon({ result }: PokemonProps) {
 
 function DetailsErrorState({ error }: { error: unknown }) {
     return (
-        <div className={style.container + " " + style.grid}>
+        <div className={style.container + " " + style.grid + " " + style.error}>
             <div className={style.name}>Oh no!</div>
             <div>
                 <img className={style["poke-img"]} src={ohnoPokemon} />

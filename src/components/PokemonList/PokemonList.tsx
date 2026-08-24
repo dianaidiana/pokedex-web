@@ -34,15 +34,16 @@ export function PokemonList({
     return (
         <div className={style.container}>
             {promiseState.state === "pending" ? (
-                <Spinner />
+                <div className={style.statusWrapper}>
+                    <Spinner />
+                </div>
             ) : promiseState.state === "rejected" ? (
-                <div>Something went wrong loading this page.</div>
+                <div className={style.errorState}>
+                    Something went wrong loading this page.
+                </div>
             ) : (
                 promiseState.value.map((result, i) => (
-                    <div
-                        className={style.pokeCard}
-                        key={amount * (page - 1) + i}
-                    >
+                    <div key={amount * (page - 1) + i}>
                         <Pokemon result={result} />
                     </div>
                 ))

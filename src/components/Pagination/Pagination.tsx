@@ -37,33 +37,37 @@ export function Pagination({
     return (
         <div className={style.pageRange}>
             <button
-                className={style.iconBtn}
+                className={style.btnReset + " " + style.iconBtn}
                 onClick={() => {
                     if (page > 1) {
                         setPage(page - 1);
                     }
                 }}
-                hidden={page <= 1}
+                disabled={page <= 1}
             >
                 <FaAngleLeft />
             </button>
             {pageRange(page, length, lastPage).map((p) => (
-                <div
+                <button
                     key={p}
+                    className={
+                        p == page
+                            ? style.btnReset + " " + style.pageBtn + " " + style.current
+                            : style.btnReset + " " + style.pageBtn
+                    }
                     onClick={() => setPage(p)}
-                    style={{ marginInline: 2 }}
                 >
-                    {p == page ? <b>{p}</b> : p}
-                </div>
+                    {p}
+                </button>
             ))}
             <button
-                className={style.iconBtn}
+                className={style.btnReset + " " + style.iconBtn}
                 onClick={() => {
                     if (lastPage === undefined || page < lastPage) {
                         setPage(page + 1);
                     }
                 }}
-                hidden={lastPage ? page >= lastPage : false}
+                disabled={lastPage ? page >= lastPage : false}
             >
                 <FaAngleRight />
             </button>
