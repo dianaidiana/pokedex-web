@@ -6,7 +6,7 @@ import { Pagination } from "./components/Pagination/Pagination";
 
 function App() {
     const [page, setPage] = useState(1);
-    const [amountPerPage, setAmountPerPage] = useState(5);
+    const [amountPerPage, setAmountPerPage] = useState(10);
     const [totalCount, setTotalCount] = useState<number>();
 
     const pageCount =

@@ -1,16 +1,45 @@
+:root {
+    /* color */
+    --color-primary: #e3350d;
+    --color-surface: #f7f7f5;
+    --color-surface-alt: #ffffff;
+    --color-text: #212121;
+    --color-border: #e0e0e0;
+    --color-error-bg: #fdedec;
+    --color-error-text: #b3261e;
+
+    /* spacing */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-4: 16px;
+    --space-5: 24px;
+    --space-6: 32px;
+
+    /* radius / shadow */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
+
+    /* type */
+    --font-size-xl: 1.5rem;
+}
+
 html {
     font-family: "Inter", sans-serif;
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
-    font-size: 25px;
-    background-color: white;
+    font-size: 16px;
+    color: var(--color-text);
+    background-color: var(--color-surface-alt);
 }
 
 body {
     margin: 0;
+    min-width: fit-content;
 }
 
 .pokelogo {
-    margin: 10px;
+    margin: var(--space-2);
 }

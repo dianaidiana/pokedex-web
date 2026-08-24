@@ -1,7 +1,10 @@
 header,
 footer {
-    padding: 1em;
-    background-color: rgb(168, 182, 231);
+    padding: var(--space-4);
+    background-color: var(--color-primary);
+    color: var(--color-surface-alt);
+    left: 0;
+    right: 0;
 }
 
 footer {
@@ -10,6 +13,7 @@ footer {
     left: 0;
     right: 0;
     z-index: 10;
+    box-shadow: var(--shadow-sm);
 }
 
 main {
@@ -17,15 +21,13 @@ main {
 }
 
 input {
-    margin-left: 1em;
+    margin-left: var(--space-4);
 }
 
 .container {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
     align-items: flex-end;
-
 }
 
 .centered {
